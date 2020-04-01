@@ -4,6 +4,7 @@ const ListsContext = React.createContext();
 
 const initialValue = {
     lists: [],
+    list: {},
     loading: true,
     error: ''
 };
@@ -20,6 +21,19 @@ const reducer = (value, action) => {
             return {
                 ...value,
                 lists: [],
+                loading: false,
+                error: action.payload
+            };
+        case 'GET_LIST_SUCCESS':
+            return {
+                ...value,
+                list: action.payload,
+                loading: false,
+            };
+        case 'GET_LIST_ERROR':
+            return {
+                ...value,
+                list: {},
                 loading: false,
                 error: action.payload
             };
@@ -56,8 +70,19 @@ const ListsContextProvider = ({ children }) => {
         }
     }
 
+    const getListRequest = async (id) => {
+        const result = await fetchData(`https://my-json-server.typicode.com/reardek/shopping-list-react/lists/${id}`);
+
+        if (result.data && result.data.hasOwnProperty('id')) {
+            dispatch({ type: 'GET_LIST_SUCCESS', payload: result.data });
+        }
+        else {
+            dispatch({ type: 'GET_LIST_ERROR', payload: result.error });
+        }
+    };
+
     return (
-        <ListsContext.Provider value = {{ ...value, getListsRequest }}>
+        <ListsContext.Provider value = {{ ...value, getListsRequest, getListRequest }}>
         {children}
         </ListsContext.Provider>
     )
