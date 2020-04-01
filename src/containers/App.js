@@ -34,10 +34,10 @@ const App = () => (
         <ListsContext.Consumer>
           {({ list, lists, loading: listsLoading, error: listsError, getListsRequest, getListRequest }) => (
             <ItemsContext.Consumer>
-            {({ items, loading: itemsLoading, error: itemsError, getItemsRequest }) => (
+            {({ items, loading: itemsLoading, error: itemsError, getItemsRequest, addItemRequest }) => (
             <Switch>
             <Route exact path='/' render={props => lists && <Lists lists={lists} loading={listsLoading} error={listsError} getListsRequest={getListsRequest} {...props} /> } />
-            <Route path='/list/:id/new' component={Form} />
+            <Route path='/list/:id/new' render={props => <Form addItemRequest={addItemRequest} {...props} /> } />
             <Route path='/list/:id' render={props => list && lists && items && <List list={list} lists={lists} items={items} loading={itemsLoading} error={itemsError} getListRequest={getListRequest} getItemsRequest={getItemsRequest} {...props} /> } />
             </Switch>
             )}

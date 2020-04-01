@@ -81,8 +81,18 @@ const ListsContextProvider = ({ children }) => {
         }
     };
 
+    const addListRequest = (content) => {
+        dispatch({
+            type: 'ADD_LIST_REQUEST',
+            payload: {
+                dataSource: `https://my-json-server.typicode.com/reardek/shopping-list-react/items`,
+                content,
+            }
+        });
+    };
+
     return (
-        <ListsContext.Provider value = {{ ...value, getListsRequest, getListRequest }}>
+        <ListsContext.Provider value = {{ ...value, getListsRequest, getListRequest, addListRequest }}>
         {children}
         </ListsContext.Provider>
     )
